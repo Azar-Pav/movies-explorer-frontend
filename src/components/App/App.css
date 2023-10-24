@@ -1,0 +1,26 @@
+.app {
+  margin: 0 auto;
+  background-color: #fafafa;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  max-width: 1280px;
+  min-height: 100vh;
+  height: 100%;
+
+  padding: 0;
+  margin: 0 auto;
+}
+
+.links-hover {
+  transition: opacity .3s linear;
+  opacity: 1;
+}
+
+.links-hover:hover {
+  opacity: .7;
+}
