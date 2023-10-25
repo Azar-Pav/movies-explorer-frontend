@@ -43,6 +43,7 @@
 
 .student__wrapper_content_info {
   max-width: 600px;
+  margin: 0 49px 0 0;
 }
 
 .student__name {
@@ -263,9 +264,13 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
   .student {
     min-height: 1198px;
+  }
+
+  .student__wrapper_content_info {
+    margin: 0;
   }
 
   .student__title {
@@ -281,7 +286,7 @@
     margin: 58px 0 0;
     padding: 0;
     width: 91%;
-
+    align-items: center;
     flex-direction: column-reverse;
     gap: 43px;
   }

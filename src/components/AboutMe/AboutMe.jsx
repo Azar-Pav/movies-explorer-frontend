@@ -24,7 +24,7 @@ const AboutMe = () => {
 
         </li>
         <li className="student__wrapper">
-          <img src={portret} alt="!" className='student__portret' />
+          <img src={portret} alt="фотография студента" className='student__portret' />
         </li>
       </ul>
 

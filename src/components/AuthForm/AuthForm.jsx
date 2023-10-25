@@ -17,6 +17,7 @@ const AuthForm = ({ title,
       <h1 className='auth__title'>{title}</h1>
       <form className='auth__form'
         onSubmit={onClickLogin}
+        noValidate
       >
         {props.children}
         <button
