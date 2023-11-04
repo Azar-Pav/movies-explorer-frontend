@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import './App.css';
+
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -10,6 +12,8 @@ import Login from '../Login/Login';
 import Profile from '../Profile/Profile';
 import Footer from '../Footer/Footer';
 import PageNotFound from '../PageNotFound/PageNotFound';
+
+import { ENDPOINTS } from '../../utils/constats';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -28,27 +32,27 @@ function App() {
         <Header isLoggedIn={isLoggedIn}/>
         <Routes>
           <Route 
-            path="/" 
+            path={ENDPOINTS.MAIN} 
             element={<Main/>} 
           />
           <Route 
-            path="/movies" 
+            path={ENDPOINTS.MOVIES}
             element={<Movies/>} 
           />
           <Route
-            path="/saved-movies"
+            path={ENDPOINTS.SAVED_MOVIES}
             element={<SavedMovies/>}
           />
           <Route
-            path="/signup" 
+            path={ENDPOINTS.REGISTER}
             element={<Register/>} 
           />
           <Route
-            path="/signin" 
+            path={ENDPOINTS.LOGIN} 
             element={<Login onSignIn={onSignIn}/>} 
           />
           <Route
-            path="/profile"
+            path={ENDPOINTS.PROFILE}
             element={<Profile onSignOut={onSignOut}/>}
           />
           <Route path="*" element={<PageNotFound/>}/>
