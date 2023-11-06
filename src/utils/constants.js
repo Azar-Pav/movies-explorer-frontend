@@ -27,10 +27,13 @@ export const configMainApi = {
 export const MESSAGES = {
     SEARCH_PLACEHOLDER_INPUT: 'Фильм',
     EMPTY_PLACEHOLDER_INPUT: 'Нужно ввести ключевое слово',
-    USER_EXIST: ' Пользователь с таким email уже существует.',
+    USER_EXIST: 'Пользователь с таким email уже существует.',
     REGISTER_USER_ERROR: 'При регистрации пользователя произошла ошибка.',
     LOGIN_PASSWORD_INCORRECT: 'Вы ввели неправильный логин или пароль.',
     AUTH_ERROR: 'При авторизации произошла ошибка.',
     USER_DATA_MODIFIED: 'Данные профиля успешно изменены.',
 };
 
+export const REGEX_EMAIL = '^[a-zA-Z0-9+_.\\-]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,4}$';
+
+export const REGEX_NAME = '[A-Za-zА-Яа-яЁё\\s\\-]+';

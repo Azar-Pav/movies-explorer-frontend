@@ -1,12 +1,39 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
+import useFormValidation from '../../hooks/useFormValidation';
+import { MESSAGES } from '../../utils/constants';
 import './SearchForm.css';
 
 const SearchForm = () => {
+
+  const [errSearchMessage, setErrSearchMessage] = useState(MESSAGES.SEARCH_PLACEHOLDER_INPUT);
+  const inputSearch = useRef(null);
+
+  const {
+    inputValues,
+    isValid,
+    handleChange,
+  } = useFormValidation();
+
+  const searchFormValidation = (isValid) => {
+    if (isValid) {
+      setErrSearchMessage(MESSAGES.SEARCH_PLACEHOLDER_INPUT)
+    }
+    else { 
+      setErrSearchMessage(MESSAGES.EMPTY_PLACEHOLDER_INPUT) 
+    }
+    inputSearch.current.focus();
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    searchFormValidation(isValid);
+  };
+
   return (
     <section className="search">
       <div className="search__container">
         <form
-          action=""
+          onSubmit={handleSubmit}
           className="search__form"
           noValidate>
           <fieldset className='search__fieldset'>
@@ -28,6 +55,12 @@ const SearchForm = () => {
               type="checkbox"
               className="search__checkbox"
               id='search__checkbox'
+              name='inputSearch'
+              placeholder={errSearchMessage}
+              ref={inputSearch}
+              value={inputValues.inputSearch ?? ''}
+              onChange={handleChange}
+              required
             />
             <div className="search__slider search__slider_round"></div>
           </label>

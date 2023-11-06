@@ -1,9 +1,18 @@
 import React from 'react';
 import AuthForm from '../AuthForm/AuthForm';
 import AuthInput from '../AuthInput/AuthInput';
+import useFormValidation from '../../hooks/useFormValidation';
+import { REGEX_EMAIL, REGEX_NAME, ENDPOINTS } from '../../utils/constants';
 import './Register.css';
 
 const Register = () => {
+
+  const {
+    inputValues,
+    errMessage,
+    isValid,
+    handleChange,
+  } = useFormValidation();
 
   return (
     <main className='register auth'>
@@ -12,37 +21,43 @@ const Register = () => {
         buttonText={'Зарегистрироваться'}
         authMessage={'Уже зарегистрированы? '}
         authLinkMessage={'Войти'}
-        endpoint={'/signin'}
-
+        endpoint={ENDPOINTS.LOGIN}
+        onDisabled={isValid}
       >
         <AuthInput
+          inputValue={inputValues.name ?? ''}
           inputType={'text'}
           labelName={'Имя'}
-          inptValue={'Виталий'}
           idInput={'name'}
-          nameInput={'authName'}
+          nameInput={'name'}
           placeholderInput={'Введите имя'}
-          erorrMessage={'Что - то пошло не так...'}
+          erorrMessage={errMessage.name ?? ''}
+          onChange={handleChange}
+          pattern={REGEX_NAME}
         />
 
         <AuthInput
+          inputValue={inputValues.email ?? ''}
           inputType={'email'}
           labelName={'E-mail'}
-          inptValue={'pochta@yandex.ru|'}
           idInput={'email'}
-          nameInput={'authEmail'}
+          nameInput={'email'}
           placeholderInput={'Введите email'}
-          erorrMessage={'Что - то пошло не так...'}
+          erorrMessage={errMessage.email ?? ''}
+          onChange={handleChange}
+          pattern={REGEX_EMAIL}
         />
 
         <AuthInput
+          inputValue={inputValues.password ?? ''}
           inputType={'password'}
           labelName={'Пароль'}
-          inptValue={'••••••••••••••'}
           idInput={'pwd'}
-          nameInput={'authEmail'}
+          nameInput={'password'}
           placeholderInput={'Введите пароль'}
-          erorrMessage={'Пожалуйста, используйте не менее 4 символов (сейчас вы используете 3 символов).'}
+          erorrMessage={errMessage.password ?? ''}
+          onChange={handleChange}
+          minLength="4"
         />
       </AuthForm >
 

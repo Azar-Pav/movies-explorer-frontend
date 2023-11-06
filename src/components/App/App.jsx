@@ -13,7 +13,7 @@ import Profile from '../Profile/Profile';
 import Footer from '../Footer/Footer';
 import PageNotFound from '../PageNotFound/PageNotFound';
 
-import { ENDPOINTS } from '../../utils/constats';
+import { ENDPOINTS } from '../../utils/constants';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
