@@ -5,7 +5,19 @@ import useFormValidation from '../../hooks/useFormValidation';
 import { REGEX_EMAIL, REGEX_NAME, ENDPOINTS } from '../../utils/constants';
 import './Register.css';
 
-const Register = () => {
+const Register = ({
+  onRegister,
+  tooltip,
+  onResetTooltip,
+  isButtonBlocked
+}) => {
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isValid) {
+      onRegister(inputValues);
+    }
+  }
 
   const {
     inputValues,
@@ -22,7 +34,11 @@ const Register = () => {
         authMessage={'Уже зарегистрированы? '}
         authLinkMessage={'Войти'}
         endpoint={ENDPOINTS.LOGIN}
+        onSubmit={handleSubmit}
         onDisabled={isValid}
+        tooltip={tooltip}
+        onResetTooltip={onResetTooltip}
+        isButtonBlocked={isButtonBlocked}
       >
         <AuthInput
           inputValue={inputValues.name ?? ''}

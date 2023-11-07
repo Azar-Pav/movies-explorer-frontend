@@ -4,13 +4,17 @@ import { Link } from 'react-router-dom';
 import './AuthForm.css';
 
 
-const AuthForm = ({ title,
+const AuthForm = ({ 
+  title,
   buttonText,
   authMessage,
   authLinkMessage,
   endpoint,
   onSubmit,
   onDisabled,
+  tooltip,
+  onResetTooltip,
+  isButtonBlocked,
   ...props }) => {
 
   return (
@@ -21,10 +25,15 @@ const AuthForm = ({ title,
         noValidate
       >
         {props.children}
+
+        {tooltip.visible ? 
+        <span className='auth__error'>{tooltip.message}</span> :
+        ''}
+
         <button
           type='submit'
           className='auth__btn'
-          disabled={!onDisabled}
+          disabled={!onDisabled || isButtonBlocked}
         >{buttonText}</button>
       </form>
 
@@ -35,6 +44,7 @@ const AuthForm = ({ title,
             <Link
               to={endpoint}
               className='auth__link links-hover'
+              onClick={onResetTooltip}
             >
               {authLinkMessage}
             </Link>

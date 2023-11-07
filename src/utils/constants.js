@@ -34,6 +34,10 @@ export const MESSAGES = {
     USER_DATA_MODIFIED: 'Данные профиля успешно изменены.',
 };
 
+export const ERROR_CODES = {
+  ERR_409: 409,
+}
+
 export const REGEX_EMAIL = '^[a-zA-Z0-9+_.\\-]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,4}$';
 
 export const REGEX_NAME = '[A-Za-zА-Яа-яЁё\\s\\-]+';
