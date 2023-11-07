@@ -7,6 +7,9 @@ import './Login.css';
 
 const Login = ({
   onSignIn,
+  tooltip,
+  onResetTooltip,
+  isButtonBlocked
 }) => {
   const {
     inputValues,
@@ -18,7 +21,7 @@ const Login = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isValid) {
-      onSignIn();
+      onSignIn(inputValues);
     }
   }
 
@@ -32,6 +35,9 @@ const Login = ({
         endpoint={ENDPOINTS.REGISTER}
         onSubmit={handleSubmit}
         onDisabled={isValid}
+        tooltip={tooltip}
+        onResetTooltip={onResetTooltip}
+        isButtonBlocked={isButtonBlocked}
       >
 
         <AuthInput
