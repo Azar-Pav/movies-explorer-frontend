@@ -1,47 +1,53 @@
-import React, { useState/* , useEffect */ } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import useFormValidation from '../../hooks/useFormValidation';
 import { REGEX_EMAIL } from '../../utils/constants';
 import './Profile.css';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
-const Profile = ({ onSignOut }) => {
-
+const Profile = ({ 
+  onSignOut,
+  tooltip,
+  onResetTooltip,
+  isButtonBlocked,
+  onUpdateUserInfo
+ }) => {
+  const { name, email } = useContext(CurrentUserContext);
   const [isVisible, setIsVisible] = useState(true);
-
-  const handleClick = (e) => {
-    onSignOut();
-  }
 
   const {
     inputValues,
     errMessage,
     isValid,
     handleChange,
-    /* setInputValues, */
-    /* setIsValid, */
+    setInputValues,
+    setIsValid,
   } = useFormValidation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isValid) {
+      onUpdateUserInfo(inputValues);
+    };
   }
 
   const handleClickEdit = (e) => {
     e.preventDefault();
-    if (isVisible === true) {
-      return setIsVisible(false)
-    }
-    return setIsVisible(true);
+    onResetTooltip();
+    setIsVisible(!isVisible);
   }
 
-/*   useEffect(() => {
-    if (
-      inputValues.name === name
-      && 
-      inputValues.email === email
+  useEffect(() => {
+    setInputValues({ name, email });
+  }, [name, email, setInputValues]);
+
+  useEffect(() => {
+    if (inputValues.name === name
+      && inputValues.email === email
     ) {
       setIsValid(false);
     }
-  }, [inputValues, setIsValid]) */
+  }, [email, inputValues, name, setIsValid])
 
   return (
     <main
@@ -89,11 +95,13 @@ const Profile = ({ onSignOut }) => {
               {errMessage.email}
             </span>
           </label>
-          <span className={`profile__error-submit ${isVisible ? '' : 'profile__error-submit_show'}`}>
-              
+          <span className={`profile__error-submit 
+            ${isVisible ? '' : 'profile__error-submit_show'}
+            ${tooltip.success ? 'profile__error-submit_success' : ''}`}>
+            {tooltip.message}              
           </span>
           <button
-            disabled={!isValid}
+            disabled={!isValid || isButtonBlocked}
             className={`profile__btn-save  ${isVisible ? '' : 'profile__btn-save_show'} `}
           >
             Сохранить
@@ -110,7 +118,7 @@ const Profile = ({ onSignOut }) => {
         <Link
           to='/'
           className={`profile__link ${isVisible ? 'profile__link_show' : ''} links-hover`}
-          onClick={handleClick}
+          onClick={onSignOut}
         >
           Выйти из аккаунта
         </Link>

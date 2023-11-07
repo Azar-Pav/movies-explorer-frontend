@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import './App.css';
@@ -99,7 +99,7 @@ function App() {
     mainApi.login({ email, password })
       .then((res) => {
         setLoggedIn(true);
-        navigate('/movies', { replace: true });
+        navigate(ENDPOINTS.MOVIES, { replace: true });
       })
       .catch((err) => {
         if (err === ERROR_CODES.ERR_401) {
@@ -111,9 +111,10 @@ function App() {
         } else {
           setLoginTooltip({
             visible: true,
-            message: MESSAGES.AUTHORIZATION_ERROR,
+            message: MESSAGES.AUTH_ERROR,
           });
           setLoginButtonBlocked(false);
+          console.error(err);
         }
       })
       .finally(() => {
@@ -122,9 +123,60 @@ function App() {
       })
   };
 
+  const handleUpdateUserInfo = ({ name, email }) => {
+    setProfileButtonBlocked(true);
+    mainApi.updateUserInfo({ name, email })
+      .then((user) => {
+        setCurrentUser(user);
+        setProfileTooltip({
+          visible: true,
+          success: true,
+          message: MESSAGES.USER_DATA_MODIFIED,
+        });
+      })
+      .catch((err) => {
+        if (err === ERROR_CODES.ERR_409) {
+          setProfileTooltip({
+            visible: true,
+            success: false,
+            message: MESSAGES.USER_EXIST,
+          });
+          setProfileButtonBlocked(false);
+        } else {
+          setProfileTooltip({
+            visible: true,
+            success: false,
+            message: MESSAGES.REGISTER_USER_ERROR,
+          });
+          setProfileButtonBlocked(false);
+          console.error(err);
+        }
+      })
+      .finally(() => {
+        setProfileButtonBlocked(false);
+      });
+  }
+
   const onSignOut = () => {
-    setLoggedIn(false)
+    mainApi.logout()
+      .then(() => {
+        onResetTooltip();
+        setLoggedIn(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  useEffect(() => {
+    mainApi.getUser()
+      .then((user) => {
+        setCurrentUser(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [isLoggedIn]);
 
   return (
     <CurrentUserContext.Provider
@@ -152,27 +204,37 @@ function App() {
             />
             <Route
               path={ENDPOINTS.REGISTER}
-              element={<Register
-                onRegister={handleRegister}
-                tooltip={registerTooltip}
-                onResetTooltip={onResetTooltip}
-                isButtonBlocked={isRegisterButtonBlocked}
-              />} 
+              element={isLoggedIn
+                ? <Navigate to={ENDPOINTS.MOVIES} replace/>
+                : <Register
+                  onRegister={handleRegister}
+                  tooltip={registerTooltip}
+                  onResetTooltip={onResetTooltip}
+                  isButtonBlocked={isRegisterButtonBlocked}
+                />
+              } 
             />
             <Route
               path={ENDPOINTS.LOGIN} 
-              element={<Login
-                onSignIn={handleLogin}
-                tooltip={loginTooltip}
-                onResetTooltip={onResetTooltip}
-                isButtonBlocked={isLoginButtonBlocked}
-              />} 
+              element={isLoggedIn
+                ? <Navigate to={ENDPOINTS.MOVIES} replace/>
+                : <Login
+                  onSignIn={handleLogin}
+                  tooltip={loginTooltip}
+                  onResetTooltip={onResetTooltip}
+                  isButtonBlocked={isLoginButtonBlocked}
+                />
+              } 
             />
             <Route
               path={ENDPOINTS.PROFILE}
               element={<ProtectedRoute 
                 element={Profile}
                 onSignOut={onSignOut}
+                tooltip={profileTooltip}
+                onResetTooltip={onResetTooltip}
+                isButtonBlocked={isProfileButtonBlocked}
+                onUpdateUserInfo={handleUpdateUserInfo}
               />}
             />
             <Route path="*" element={<PageNotFound/>}/>

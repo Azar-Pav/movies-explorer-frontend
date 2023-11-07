@@ -115,6 +115,10 @@
   line-height: 1.18;
 }
 
+.profile__error-submit_success {
+  color: #2BE080;
+}
+
 .profile__btn-save {
   position: absolute;
   bottom: 0;
@@ -227,8 +231,6 @@
   .profile__error-submit {
     margin: 175px 0 0;
   }
-
-  .profile__btn-redact {}
 
   .profile__link {
     margin: 16px 0 69px;
