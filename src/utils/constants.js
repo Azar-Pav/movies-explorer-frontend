@@ -21,7 +21,13 @@ export const configMainApi = {
     MOVIES: '/movies',
     USER: '/users/me',
   },
-  MOVIE_IMAGE_BASE_URL: 'https://api.nomoreparties.co/',
+};
+
+export const MOVIE_IMAGE_BASE_URL = 'https://api.nomoreparties.co/';
+
+export const configBeatfilmApi = {
+  BASE_URL: 'https://api.nomoreparties.co/beatfilm-movies/',
+  headers: { "Content-Type": "application/json" },
 };
 
 export const MESSAGES = {
@@ -36,6 +42,7 @@ export const MESSAGES = {
 
 export const ERROR_CODES = {
   ERR_409: 409,
+  ERR_401: 401,
 }
 
 export const REGEX_EMAIL = '^[a-zA-Z0-9+_.\\-]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,4}$';

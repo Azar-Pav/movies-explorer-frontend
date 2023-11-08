@@ -1,7 +1,7 @@
-import configMainApi from './constants';
+import { configMainApi, MOVIE_IMAGE_BASE_URL } from './constants';
 
 class MainApi {
-  constructor({ BASE_URL, HEADERS, CREDENTIALS, ENDPOINTS, MOVIE_IMAGE_BASE_URL }) {
+  constructor({ BASE_URL, HEADERS, CREDENTIALS, ENDPOINTS}, { MOVIE_IMAGE_BASE_URL }) {
     this._baseUrl = BASE_URL;
     this._headers = HEADERS;
     this._credentials = CREDENTIALS;
@@ -152,6 +152,6 @@ class MainApi {
 
 }
 
-const mainApi = new MainApi(configMainApi);
+const mainApi = new MainApi(configMainApi, MOVIE_IMAGE_BASE_URL);
 export default mainApi
 

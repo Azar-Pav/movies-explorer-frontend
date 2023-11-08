@@ -25,6 +25,7 @@ function App() {
 
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+  const [savedFilms, setSavedFilms] = useState([]);
 
   const [registerTooltip, setRegisterTooltip] = useState({
     visible: false,
@@ -39,15 +40,10 @@ function App() {
     message: '',
     success: false,
   });
-  const [moviesTooltip, setMoviesTooltip] = useState({
-    visible: false,
-    message: '',
-  });
 
   const [isRegisterButtonBlocked, setRegisterButtonBlocked] = useState(false);
   const [isLoginButtonBlocked, setLoginButtonBlocked] = useState(false);
   const [isProfileButtonBlocked, setProfileButtonBlocked] = useState(false);
-  const [isMoviesButtonBlocked, setMoviesButtonBlocked] = useState(false);
   
   const onResetTooltip = () => {
     setRegisterTooltip({
@@ -62,10 +58,6 @@ function App() {
       visible: false,
       message: '',
       success: false,
-    });
-    setMoviesTooltip({
-      visible: false,
-      message: '',
     });
   }
 
@@ -160,6 +152,9 @@ function App() {
   const onSignOut = () => {
     mainApi.logout()
       .then(() => {
+        localStorage.removeItem('moviesFullList');
+        localStorage.removeItem('request');
+        localStorage.removeItem('checkboxMoviesStorage');
         onResetTooltip();
         setLoggedIn(false);
       })
@@ -168,14 +163,51 @@ function App() {
       });
   };
 
-  useEffect(() => {
-    mainApi.getUser()
-      .then((user) => {
-        setCurrentUser(user);
+  const handleSaveFilms = (movie) => {
+    mainApi.getSavedMovie(movie)
+      .then((data) => {
+        setSavedFilms([data, ...savedFilms]);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  const handleDeleteSavedFilm = (movieId) => {
+    mainApi.deleteMovie(movieId)
+      .then(() => {
+        setSavedFilms(
+          savedFilms.filter((movie) => {
+            return movie._id !== movieId;
+          })
+        );
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const gettingSavedFilms = () => {
+    mainApi.getMovies()
+      .then((data) => {
+        setSavedFilms(data.movies);
+      })
+      .catch((err) => {
+        console.error(err)
+      });
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      gettingSavedFilms();
+      mainApi.getUser()
+        .then((user) => {
+          setCurrentUser(user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [isLoggedIn]);
 
   return (
@@ -193,13 +225,20 @@ function App() {
             <Route 
               path={ENDPOINTS.MOVIES}
               element={<ProtectedRoute
+                loggedIn={isLoggedIn}
                 element={Movies}
+                onSaveFilms={handleSaveFilms}
+                savedFilms={savedFilms}
+                onDeleteSaveFilm={handleDeleteSavedFilm}
               />} 
             />
             <Route
               path={ENDPOINTS.SAVED_MOVIES}
               element={<ProtectedRoute
+                loggedIn={isLoggedIn}
                 element={SavedMovies}
+                savedFilms={savedFilms}
+                onDeleteSaveFilm={handleDeleteSavedFilm}
               />}
             />
             <Route
@@ -229,6 +268,7 @@ function App() {
             <Route
               path={ENDPOINTS.PROFILE}
               element={<ProtectedRoute 
+                loggedIn={isLoggedIn}
                 element={Profile}
                 onSignOut={onSignOut}
                 tooltip={profileTooltip}
