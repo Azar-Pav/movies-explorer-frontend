@@ -8,7 +8,7 @@ export const ENDPOINTS = {
 }
 
 export const configMainApi = {
-  BASE_URL: 'https://api.movies-explorer.azar.nomoredomainsrocks.ru',
+  BASE_URL: 'movies-explorer.azar.nomoredomainsmonster.ru/api',
   HEADERS: {
     accept: 'application/json',
     'Content-type': 'application/json',
