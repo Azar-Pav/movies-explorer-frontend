@@ -20,7 +20,8 @@ const MoviesCardList = ({
   const { pathname } = useLocation();
   const isSavedMovies = pathname === ENDPOINTS.SAVED_MOVIES;
 
-  const [insertList, setInsertList] = useState([]);
+  const [filteredFilmsList, setFilteredFilmsList] = useState([]);
+  const [savedFilmsList, setSavedFilmsList] = useState([]);
 
   const {
     addCards,
@@ -62,7 +63,11 @@ const MoviesCardList = ({
   });
 
   useEffect(() => {
-    setInsertList(filteredMovies);
+    if (isSavedMovies) {
+      setSavedFilmsList(savedMovies)
+    } else {
+      setFilteredFilmsList(filteredMovies);
+    }
   }, [moviesDisplay, stateChechbox, listMovies]);
 
   useEffect(() => {
@@ -83,15 +88,17 @@ const MoviesCardList = ({
         </p>
       }
 
-      {!isSavedMovies && insertList.length < listMovies.length
-        ? <button 
-          type='button'
-          onClick={addCards}
-          className='movies-list__btn-more'
-        >
-          Ещё
-        </button>
-        : <div className='movies-list__saved-divider'></div>
+      {isSavedMovies 
+        ? savedFilmsList.length < listMovies.length
+        : filteredFilmsList.length < listMovies.length
+          ? <button 
+            type='button'
+            onClick={addCards}
+            className='movies-list__btn-more'
+          >
+            Ещё
+          </button>
+          : <div className='movies-list__saved-divider'></div>
       }
     </section >
   );

@@ -26,9 +26,9 @@ const AuthForm = ({
       >
         {props.children}
 
-        {tooltip.visible ? 
-        <span className='auth__error'>{tooltip.message}</span> :
-        ''}
+        {tooltip.visible 
+          ? <span className='auth__error'>{tooltip.message}</span> 
+          : ''}
 
         <button
           type='submit'

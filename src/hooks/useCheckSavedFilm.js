@@ -1,9 +1,11 @@
 const useCheckSavedFilm = () => {
 
   const checkSaved = (movies, movie) => {
-    return movies.find((item) => {
-      return item.movieId === movie.id;
-    });
+    if (movies) {
+      return movies.find((item) => {
+        return item.movieId === movie.id;
+      });
+    }
   };
 
   return { checkSaved };

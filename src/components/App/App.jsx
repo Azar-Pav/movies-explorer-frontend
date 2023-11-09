@@ -18,7 +18,26 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import { ENDPOINTS, MESSAGES, ERROR_CODES } from '../../utils/constants';
 
-import mainApi from '../../utils/MainApi';
+import {
+  deleteMovie, 
+  getMovies, 
+  getSavedMovie, 
+  getUser, 
+  login, 
+  logout, 
+  register, 
+  updateUserInfo
+} from '../../utils/MainApi';
+const mainApi = {
+  deleteMovie, 
+  getMovies, 
+  getSavedMovie, 
+  getUser, 
+  login, 
+  logout, 
+  register, 
+  updateUserInfo
+};
 
 function App() {
   const navigate = useNavigate();
@@ -88,6 +107,7 @@ function App() {
 
   const handleLogin = ({ email, password }) => {
     setLoginButtonBlocked(true);
+    console.log(isLoginButtonBlocked);
     mainApi.login({ email, password })
       .then((res) => {
         setLoggedIn(true);
@@ -99,15 +119,14 @@ function App() {
             visible: true,
             message: MESSAGES.LOGIN_PASSWORD_INCORRECT,
           });
-          setLoginButtonBlocked(false);
         } else {
           setLoginTooltip({
             visible: true,
             message: MESSAGES.AUTH_ERROR,
           });
-          setLoginButtonBlocked(false);
-          console.error(err);
+          console.log(loginTooltip);
         }
+        console.error(err);
       })
       .finally(() => {
         setLoginButtonBlocked(false);
@@ -163,10 +182,14 @@ function App() {
       });
   };
 
-  const handleSaveFilms = (movie) => {
+  const handleSaveFilm = (movie) => {
     mainApi.getSavedMovie(movie)
-      .then((data) => {
-        setSavedFilms([data, ...savedFilms]);
+      .then((film) => {
+        if (savedFilms) {
+          setSavedFilms([film, ...savedFilms]);
+        } else {
+          setSavedFilms([film])
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -190,12 +213,21 @@ function App() {
   const gettingSavedFilms = () => {
     mainApi.getMovies()
       .then((data) => {
-        setSavedFilms(data.movies);
+        console.log(data);
+        setSavedFilms(data);
+        console.log(savedFilms);
       })
       .catch((err) => {
         console.error(err)
       });
   };
+
+  /* useEffect(() => {
+    console.log(localStorage.getItem('moviesFullList'));
+    console.log(localStorage.getItem('request'));
+    localStorage.setItem('checkboxMoviesStorage', JSON.stringify(false));
+    console.log(localStorage.getItem('checkboxMoviesStorage'));
+  }, []) */
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -227,7 +259,7 @@ function App() {
               element={<ProtectedRoute
                 loggedIn={isLoggedIn}
                 element={Movies}
-                onSaveFilms={handleSaveFilms}
+                onSaveFilm={handleSaveFilm}
                 savedFilms={savedFilms}
                 onDeleteSaveFilm={handleDeleteSavedFilm}
               />} 
