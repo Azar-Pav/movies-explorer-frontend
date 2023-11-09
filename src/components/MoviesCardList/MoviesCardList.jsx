@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-import useWindowCalculator from '../../hooks/useWindowCalculator';
+import useMoviesUtils from '../../hooks/useMoviesUtils';
 import useCheckSavedFilm from '../../hooks/useCheckSavedFilm';
 
 import { ENDPOINTS } from '../../utils/constants';
@@ -24,11 +24,11 @@ const MoviesCardList = ({
   const [savedFilmsList, setSavedFilmsList] = useState([]);
 
   const {
-    addCards,
+    addMovies,
     moviesDisplay,
     resizeDelay,
     handleResize,
-  } = useWindowCalculator();
+  } = useMoviesUtils();
 
   const filteredMovies = listMovies.slice(0, moviesDisplay).map((movie) => {
     return (
@@ -93,7 +93,7 @@ const MoviesCardList = ({
         : filteredFilmsList.length < listMovies.length
           ? <button 
             type='button'
-            onClick={addCards}
+            onClick={addMovies}
             className='movies-list__btn-more'
           >
             Ещё

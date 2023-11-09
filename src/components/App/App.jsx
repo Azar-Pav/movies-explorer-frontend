@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 import './App.css';
@@ -41,6 +41,7 @@ const mainApi = {
 
 function App() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -107,7 +108,6 @@ function App() {
 
   const handleLogin = ({ email, password }) => {
     setLoginButtonBlocked(true);
-    console.log(isLoginButtonBlocked);
     mainApi.login({ email, password })
       .then((res) => {
         setLoggedIn(true);
@@ -212,22 +212,13 @@ function App() {
 
   const gettingSavedFilms = () => {
     mainApi.getMovies()
-      .then((data) => {
-        console.log(data);
-        setSavedFilms(data);
-        console.log(savedFilms);
+      .then((films) => {
+        setSavedFilms(films);
       })
       .catch((err) => {
         console.error(err)
       });
   };
-
-  /* useEffect(() => {
-    console.log(localStorage.getItem('moviesFullList'));
-    console.log(localStorage.getItem('request'));
-    localStorage.setItem('checkboxMoviesStorage', JSON.stringify(false));
-    console.log(localStorage.getItem('checkboxMoviesStorage'));
-  }, []) */
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -241,6 +232,10 @@ function App() {
         });
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    onResetTooltip();
+  }, [pathname]);
 
   return (
     <CurrentUserContext.Provider

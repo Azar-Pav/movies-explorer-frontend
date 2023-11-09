@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-const useWindowCalculator = () => {
+const useMoviesUtils = () => {
 
   const [moviesDisplay, setMoviesDisplay] = useState(0);
   const [moviesAddDisplay, setMoviesAddDisplay] = useState(0);
@@ -41,11 +41,11 @@ const useWindowCalculator = () => {
     }
   }, [widthWindow, relationWidht]);
 
-  const addCards = () => {
+  const addMovies = () => {
     setMoviesDisplay(moviesDisplay + moviesAddDisplay);
   };
 
-  return { addCards, moviesDisplay, resizeDelay, handleResize }
+  return { addMovies, moviesDisplay, resizeDelay, handleResize }
 };
 
-export default useWindowCalculator;
+export default useMoviesUtils;

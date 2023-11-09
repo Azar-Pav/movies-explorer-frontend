@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import './AuthForm.css';
 
-
 const AuthForm = ({ 
   title,
   buttonText,

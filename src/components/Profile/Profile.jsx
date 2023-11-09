@@ -53,7 +53,7 @@ const Profile = ({
     <main
       className='profile'>
       <div className="profile__container">
-        <h1 className="profile__title">Привет, Виталий!</h1>
+        <h1 className="profile__title">Привет, {name}!</h1>
         <form className='profile__form'
           onSubmit={handleSubmit}
         >
@@ -63,11 +63,13 @@ const Profile = ({
             Имя
             <input
               placeholder='Введите имя'
+              name='name'
               type="text"
-              id='email'
+              id='name'
               className='profile__input'
               value={inputValues.name ?? ''}
               onChange={handleChange}
+              disabled={isVisible}
               required />
             <span
               className='profile__error'>
@@ -83,13 +85,16 @@ const Profile = ({
             E-mail
             <input
               placeholder='Введите e-mail'
+              name='email'
               type="email"
               id='name'
               className='profile__input'
               pattern={REGEX_EMAIL}
               value={inputValues.email ?? ''}
               onChange={handleChange}
-              required />
+              disabled={isVisible}
+              required 
+            />
             <span
               className='profile__error'>
               {errMessage.email}

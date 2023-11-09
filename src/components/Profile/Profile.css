@@ -81,10 +81,6 @@
   outline: none;
 }
 
-.profile__input:focus {
-  border-bottom: 1px solid #3456F3;
-}
-
 .profile__input:disabled {
   background-color: #fff;
 }
