@@ -111,6 +111,7 @@ function App() {
     mainApi.login({ email, password })
       .then((res) => {
         setLoggedIn(true);
+        localStorage.setItem("everLogin", true);
         navigate(ENDPOINTS.MOVIES, { replace: true });
       })
       .catch((err) => {
@@ -124,7 +125,6 @@ function App() {
             visible: true,
             message: MESSAGES.AUTH_ERROR,
           });
-          console.log(loginTooltip);
         }
         console.error(err);
       })
@@ -222,16 +222,21 @@ function App() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      gettingSavedFilms();
-      mainApi.getUser()
-        .then((user) => {
-          setCurrentUser(user);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      gettingSavedFilms()
     }
-  }, [isLoggedIn]);
+    mainApi.getUser()
+      .then((user) => {
+        if (isLoggedIn) {
+          setCurrentUser(user);
+        } else {
+          setLoggedIn(true);
+        }
+      })
+      .catch((err) => {
+        if (isLoggedIn) {console.log(err);}
+      });
+    
+  }, []);
 
   useEffect(() => {
     onResetTooltip();
