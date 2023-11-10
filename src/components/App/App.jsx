@@ -111,7 +111,6 @@ function App() {
     mainApi.login({ email, password })
       .then((res) => {
         setLoggedIn(true);
-        localStorage.setItem("everLogin", true);
         navigate(ENDPOINTS.MOVIES, { replace: true });
       })
       .catch((err) => {
@@ -221,22 +220,20 @@ function App() {
   };
 
   useEffect(() => {
+    const beforeReloadPath = pathname;
     if (isLoggedIn) {
       gettingSavedFilms()
     }
     mainApi.getUser()
       .then((user) => {
-        if (isLoggedIn) {
-          setCurrentUser(user);
-        } else {
-          setLoggedIn(true);
-        }
+        setCurrentUser(user);
+        setLoggedIn(true);
+        navigate(beforeReloadPath, { replace: true });
       })
       .catch((err) => {
-        if (isLoggedIn) {console.log(err);}
-      });
-    
-  }, []);
+        if (isLoggedIn) {console.log(err)}
+      });    
+  }, [isLoggedIn]);
 
   useEffect(() => {
     onResetTooltip();
