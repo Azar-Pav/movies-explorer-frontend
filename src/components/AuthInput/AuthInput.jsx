@@ -10,6 +10,9 @@ const AuthInput = ({
   placeholderInput,
   erorrMessage,
   onChange,
+  pattern,
+  minLength,
+  maxLength,
 }) => {
   return (
     <label
@@ -19,9 +22,13 @@ const AuthInput = ({
         type={inputType}
         placeholder={placeholderInput}
         name={nameInput}
-        className='input-auth__input' id={idInput}
+        className='input-auth__input' 
+        id={idInput}
         onChange={onChange}
         value={inputValue}
+        pattern={pattern}
+        minLength={minLength}
+        maxLength={maxLength}
         required
       />
       <span

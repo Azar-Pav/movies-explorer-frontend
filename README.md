@@ -1,5 +1,9 @@
 # [По макету light-3 (ссылка)](https://www.figma.com/file/6FMWkB94wE7KTkcCgUXtnC/%D0%94%D0%B8%D0%BF%D0%BB%D0%BE%D0%BC%D0%BD%D1%8B%D0%B9-%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82?type=design&node-id=1-1534&mode=design&t=gVxIzRURnFdL6tED-0)
 
+# [Пул реквест](https://github.com/Azar-Pav/movies-explorer-frontend/pull/2)
+# [Бэк](https://github.com/Azar-Pav/movies-explorer-api) https://movies-explorer.azar.nomoredomainsmonster.ru/api
+# [Фронт](https://github.com/Azar-Pav/movies-explorer-frontend/) https://movies-explorer.azar.nomoredomainsmonster.ru
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

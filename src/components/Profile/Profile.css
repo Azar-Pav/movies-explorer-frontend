@@ -81,10 +81,6 @@
   outline: none;
 }
 
-.profile__input:focus {
-  border-bottom: 1px solid #3456F3;
-}
-
 .profile__input:disabled {
   background-color: #fff;
 }
@@ -113,6 +109,10 @@
   font-size: 11px;
   font-weight: 400;
   line-height: 1.18;
+}
+
+.profile__error-submit_success {
+  color: #2BE080;
 }
 
 .profile__btn-save {
@@ -227,8 +227,6 @@
   .profile__error-submit {
     margin: 175px 0 0;
   }
-
-  .profile__btn-redact {}
 
   .profile__link {
     margin: 16px 0 69px;
