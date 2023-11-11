@@ -13,7 +13,7 @@ const MoviesCardList = ({
   requestStorage,
   stateChechbox,
   onSaveFilms,
-  onDeleteSaveFilm,
+  onDeleteSavedFilm,
   savedFilms
 }) => {
   const { checkSaved } = useCheckSavedFilm();
@@ -37,7 +37,7 @@ const MoviesCardList = ({
         movie={movie}
         isSavedMovies={isSavedMovies}
         onSaveFilms={onSaveFilms}
-        onDeleteSaveFilm={onDeleteSaveFilm}
+        onDeleteSavedFilm={onDeleteSavedFilm}
         checkSaved={
           isSavedMovies
             ? true
@@ -53,7 +53,7 @@ const MoviesCardList = ({
         movie={movie}
         isSavedMovies={isSavedMovies}
         onSaveFilms={onSaveFilms}
-        onDeleteSaveFilm={onDeleteSaveFilm}
+        onDeleteSavedFilm={onDeleteSavedFilm}
         checkSaved={
           isSavedMovies
             ? true

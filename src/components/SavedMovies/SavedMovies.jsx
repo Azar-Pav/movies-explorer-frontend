@@ -5,7 +5,7 @@ import useFilterFilms from '../../hooks/useFilterFilms';
 
 const SavedMovies = ({
   savedFilms,
-  onDeleteSaveFilm,
+  onDeleteSavedFilm,
 }) => {
   const [listMovies, setListMovies] = useState([]);
 
@@ -57,7 +57,7 @@ const SavedMovies = ({
         isChecked={isCheckedShortFilms}/>
       <MoviesCardList
         listMovies={listMovies}
-        onDeleteSaveFilm={onDeleteSaveFilm}
+        onDeleteSavedFilm={onDeleteSavedFilm}
       />
     </div>
   );

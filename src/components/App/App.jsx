@@ -224,15 +224,19 @@ function App() {
     if (isLoggedIn) {
       gettingSavedFilms()
     }
-    mainApi.getUser()
-      .then((user) => {
-        setCurrentUser(user);
-        setLoggedIn(true);
-        navigate(beforeReloadPath, { replace: true });
-      })
-      .catch((err) => {
-        if (isLoggedIn) {console.log(err)}
-      });    
+    if (!isLoggedIn) {
+      mainApi.getUser()
+        .then((user) => {
+          setCurrentUser(user);
+          setLoggedIn(true);
+          navigate(beforeReloadPath, { replace: true });
+        })
+        .catch((err) => {
+          if (err !== ERROR_CODES.ERR_401) {
+            console.log(err)
+          }
+        });    
+    }
   }, [isLoggedIn]);
 
   useEffect(() => {
@@ -258,7 +262,7 @@ function App() {
                 element={Movies}
                 onSaveFilm={handleSaveFilm}
                 savedFilms={savedFilms}
-                onDeleteSaveFilm={handleDeleteSavedFilm}
+                onDeleteSavedFilm={handleDeleteSavedFilm}
               />} 
             />
             <Route
@@ -267,7 +271,7 @@ function App() {
                 loggedIn={isLoggedIn}
                 element={SavedMovies}
                 savedFilms={savedFilms}
-                onDeleteSaveFilm={handleDeleteSavedFilm}
+                onDeleteSavedFilm={handleDeleteSavedFilm}
               />}
             />
             <Route

@@ -7,7 +7,7 @@ const MoviesCard = ({
   movie,
   onSaveFilms,
   isSavedMovies,
-  onDeleteSaveFilm,
+  onDeleteSavedFilm,
   checkSaved
 }) => {
 
@@ -19,13 +19,12 @@ const MoviesCard = ({
     return hours + "ч" + minutes + 'м';
   }
 
-  const handleClickSave = (e) => {
-    e.preventDefault();
+  const handleClickSave = () => {
     onSaveFilms(movie);
   };
 
   const handleClickDeleteSaveFilm = () => {
-    onDeleteSaveFilm(movie._id);
+    onDeleteSavedFilm(movie._id);
   }
 
   return (
